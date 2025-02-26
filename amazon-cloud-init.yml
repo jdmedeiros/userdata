@@ -21,6 +21,5 @@ packages:
   - java-17-amazon-corretto
 
 # 4) Optionally run a single check command to print Java version
-#    (No large bash script—just a single command in runcmd).
 runcmd:
   - java -version
