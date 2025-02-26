@@ -1,0 +1,26 @@
+#cloud-config
+
+# 1) Configure the Corretto yum repository
+yum_repos:
+  corretto:
+    baseurl: "https://yum.corretto.aws"
+    enabled: true
+    gpgcheck: true
+    gpgkey: "https://yum.corretto.aws/corretto.key"
+    name: "Amazon Corretto"
+
+# 2) Automatically update and upgrade packages
+package_update: true
+package_upgrade: true
+
+# 3) Install packages
+#    - '@Development Tools' is a group package on RHEL-based distros
+#    - 'java-17-amazon-corretto' installs Amazon Corretto 17
+packages:
+  - '@Development Tools'
+  - java-17-amazon-corretto
+
+# 4) Optionally run a single check command to print Java version
+#    (No large bash script—just a single command in runcmd).
+runcmd:
+  - java -version

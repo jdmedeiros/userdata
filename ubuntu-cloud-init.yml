@@ -1,0 +1,25 @@
+#cloud-config
+package_update: true
+package_upgrade: true
+
+packages:
+  - build-essential
+  - default-jdk
+  - zip
+  - unzip
+  - software-properties-common
+
+runcmd:
+  # Enable the official Ansible PPA
+  - add-apt-repository --yes --update ppa:ansible/ansible
+
+  # Update again after adding the Ansible PPA
+  - apt-get update
+
+  # Install Ansible
+  - apt-get install -y ansible
+
+  # (Optional) Show Ansible version
+  - ansible --version
+  - java -version
+
