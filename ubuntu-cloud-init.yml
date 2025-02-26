@@ -10,16 +10,23 @@ packages:
   - software-properties-common
 
 runcmd:
-  # Enable the official Ansible PPA
+  # 1) Enable the official Ansible PPA
   - add-apt-repository --yes --update ppa:ansible/ansible
 
-  # Update again after adding the Ansible PPA
+  # 2) Update again after adding the Ansible PPA
   - apt-get update
 
-  # Install Ansible
+  # 3) Install Ansible
   - apt-get install -y ansible
 
-  # (Optional) Show Ansible version
+  # 4) (Optional) Show Ansible and Java versions
   - ansible --version
   - java -version
 
+  # 5) Add the Jenkins key and repo
+  - wget -O /usr/share/keyrings/jenkins-keyring.asc https://pkg.jenkins.io/debian/jenkins.io-2023.key
+  - echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian binary/" > /etc/apt/sources.list.d/jenkins.list
+
+  # 6) Update repositories and install Jenkins
+  - apt-get update
+  - apt-get install -y jenkins

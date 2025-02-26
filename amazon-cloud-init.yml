@@ -20,6 +20,21 @@ packages:
   - '@Development Tools'
   - java-17-amazon-corretto
 
-# 4) Optionally run a single check command to print Java version
+# 4) runcmd: Additional commands to run after package installation
 runcmd:
+  # Print Java version (optional)
   - java -version
+
+  # Add Jenkins repository for RHEL/CentOS/Amazon Linux
+  - wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+  - rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+
+  # Update (optional, since package_update is true, but can be explicit)
+  - yum -y update
+
+  # Install Jenkins
+  - yum -y install jenkins
+
+  # Optionally enable and start Jenkins at boot
+  - systemctl enable jenkins
+  - systemctl start jenkins
