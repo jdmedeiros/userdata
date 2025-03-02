@@ -16,10 +16,30 @@ package_upgrade: true
 # 3) Install packages
 #    - '@Development Tools' is a group package on RHEL-based distros
 #    - 'java-17-amazon-corretto' installs Amazon Corretto 17
+#    - Adding required dependencies for Docker installation
 packages:
   - '@Development Tools'
   - java-17-amazon-corretto
+  - yum-utils
+  - device-mapper-persistent-data
+  - lvm2
 
-# 4) Optionally run a single check command to print Java version
+# 4) Install Docker
 runcmd:
+  # Add Docker’s official repository
+  - yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+
+  # Update package index
+  - yum update -y
+
+  # Install Docker and required dependencies
+  - yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  # Enable and start Docker service
+  - systemctl enable --now docker.service
+
+  # Add 'ec2-user' to the Docker group (change if using a different user)
+  - usermod -aG docker ec2-user
+
+  # Print Java version
   - java -version
