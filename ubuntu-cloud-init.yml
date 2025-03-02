@@ -8,6 +8,9 @@ packages:
   - zip
   - unzip
   - software-properties-common
+  - apt-transport-https
+  - ca-certificates
+  - curl
 
 runcmd:
   # Enable the official Ansible PPA
@@ -23,3 +26,21 @@ runcmd:
   - ansible --version
   - java -version
 
+  # Add Docker’s official GPG key
+  - mkdir -p /etc/apt/keyrings
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+
+  # Add Docker repository
+  - echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+  # Update package index again
+  - apt-get update
+
+  # Install Docker and related packages
+  - apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+  # Enable and start Docker service
+  - systemctl enable --now docker.service
+
+  # Add 'ubuntu' user to the docker group to allow running Docker without sudo
+  - usermod -aG docker ubuntu
