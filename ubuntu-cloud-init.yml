@@ -11,6 +11,7 @@ packages:
   - apt-transport-https
   - ca-certificates
   - curl
+  - hexedit
 
 runcmd:
   # Enable the official Ansible PPA
