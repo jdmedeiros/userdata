@@ -12,6 +12,9 @@ packages:
   - ca-certificates
   - curl
   - hexedit
+  - nginx
+  - acl
+  - ssl-cert
 
 runcmd:
   # Enable the official Ansible PPA
